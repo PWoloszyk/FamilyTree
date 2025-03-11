@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table border="1">
+    <thead>
+        <tr>
+            <th>imie</th>
+            <th>nazwisko</th>
+            <th>data urodzenia</th>
+            <th>szczegóły</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for person in family_list %}
+        <tr>
+            <td>
+                {{ person.first_name }}
+            </td>
+            <td>
+                {{ person.last_name }}
+            </td>
+            <td>
+                {{ person.birth_date }}
+            </td>
+            <td>
+                <a href="{% url 'person-detail' person.pk %}">szczegóły</a>
+                <a href="{% url 'family_urls:delete-person' person.pk%}">usun</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
