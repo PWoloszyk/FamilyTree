@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ person.first_name }} {{ person.last_name }}</title>
+    </head>
+    <body>
+        <h1>{{ person.first_name }} {{ person.last_name }}</h1>
+        <p>
+            <strong>Data urodzenia:</strong>
+            {{ person.birth_date }}
+        </p>
+        {% if person.death_date %}
+        <p>
+            <strong>Data śmierci:</strong>
+            {{ person.death_date }}
+        </p>
+        {% endif %}
+    {% if person.bio %}
+        <p>
+            <strong>Biografia:</strong>
+            {{ person.bio }}
+        </p>
+        {% endif %}
+    {% if person.image %}
+        <img src="{{ person.image.url }}" alt="{{ person.first_name }} {{ person.last_name }}">
+        {% endif %}
+        <p>
+            <strong>Rodzice:</strong>
+        </p>
+        <ul>
+            {% if person.father %}
+            <li>
+                Ojciec:
+                <a href="{% url 'person-detail' person.father.pk %}">{{ person.father.first_name }} {{ person.father.last_name }}</a>
+            </li>
+            {% endif %}
+        {% if person.mother %}
+            <li>
+                Matka:
+                <a href="{% url 'person-detail' person.mother.pk %}">{{ person.mother.first_name }} {{ person.mother.last_name }}</a>
+            </li>
+            {% endif %}
+        </ul>
+        <p>
+            <strong>Partnerzy:</strong>
+        </p>
+        <ul>
+            {% if person.partners.all %}
+            {% for partner in person.partners.all %}
+            <li>
+                <a href="{% url 'person-detail' partner.pk %}">{{ partner.first_name }} {{ partner.last_name }}</a>
+                <!-- {% if not forloop.last %}, {% endif %} -->
+            </li>
+            {% endfor %}
+            {% endif %}
+        </ul>
+        <a href="{% url 'homepage' %}">Powrót do listy</a>
+        <a href="{% url 'family_urls:delete-person' person.pk%}">usun</a>
+    </body>
+</html>
